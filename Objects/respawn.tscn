@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dt716vufwnuuk"]
+
+[ext_resource type="Script" uid="uid://dsgufykwxun4v" path="res://Scripts/respawn.gd" id="1_71x5n"]
+[ext_resource type="PackedScene" uid="uid://c7eh772uoald4" path="res://Objects/enemy.tscn" id="2_dda2a"]
+
+[node name="Respawn" type="Node3D"]
+script = ExtResource("1_71x5n")
+enemy = ExtResource("2_dda2a")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
