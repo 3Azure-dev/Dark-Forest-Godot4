@@ -29,3 +29,6 @@ Godot 4.7, GDScript
 
 ## Screenshots
 (coming soon)
+
+## Credits
+Started from a tutorial. 3D models and animations come from the tutorial's assets.
