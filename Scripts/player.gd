@@ -115,3 +115,9 @@ func _on_attack_zone_body_entered(body: Node3D) -> void:
 func _on_attack_zone_body_exited(body: Node3D) -> void:
 	if body.has_method("enemy"):
 		target.erase(body)
+
+
+
+
+func _on_flash_light_toggle(is_on: Variant) -> void:
+	print(is_on)

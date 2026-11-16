@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://lsgn50mlqes2"]
+[gd_scene format=3 uid="uid://lsgn50mlqes2"]
 
 [ext_resource type="Script" uid="uid://pk0ujss0f17u" path="res://Scripts/player.gd" id="1_y0qk3"]
 [ext_resource type="PackedScene" uid="uid://bi8sd3kkfd0jk" path="res://Models/Sword.glb" id="2_3y5cq"]
 [ext_resource type="Texture2D" uid="uid://dpp8kssfqe1fn" path="res://Sprites/healthbarbacunder.png" id="3_0ad8t"]
 [ext_resource type="Texture2D" uid="uid://1rkk7j0vyfm1" path="res://Sprites/healthbarover.png" id="4_x20fu"]
+[ext_resource type="PackedScene" uid="uid://cigknneom377e" path="res://Objects/flash_light.tscn" id="5_x20fu"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ojbdc"]
 radius = 0.393
@@ -90,41 +91,39 @@ _data = {
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0ad8t"]
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" unique_id=1089680964]
 script = ExtResource("1_y0qk3")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1285564586]
 mesh = SubResource("CapsuleMesh_ojbdc")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=932431929]
 shape = SubResource("CapsuleShape3D_y0qk3")
 
-[node name="Top" type="Node3D" parent="."]
+[node name="Top" type="Node3D" parent="." unique_id=188657842]
 
-[node name="ThirdPersonCam" type="Camera3D" parent="Top"]
+[node name="ThirdPersonCam" type="Camera3D" parent="Top" unique_id=937026838]
 transform = Transform3D(1, 0, 0, 0, 0.9235051, 0.38358623, 0, -0.38358623, 0.9235051, 0, 1.4705987, 1.7085525)
 
-[node name="FirstPersonCam" type="Camera3D" parent="."]
+[node name="FirstPersonCam" type="Camera3D" parent="." unique_id=673338939]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4098428, 0)
 current = true
 
-[node name="SwordPoint" type="Node3D" parent="FirstPersonCam"]
+[node name="SwordPoint" type="Node3D" parent="FirstPersonCam" unique_id=464468872]
 transform = Transform3D(1, 0, 0, 0, 0.5517041, 0.83403987, 0, -0.8340399, 0.55170405, 0, 0, -0.37940964)
 
-[node name="Sword" parent="FirstPersonCam/SwordPoint" instance=ExtResource("2_3y5cq")]
+[node name="Sword" parent="FirstPersonCam/SwordPoint" unique_id=176286847 instance=ExtResource("2_3y5cq")]
 transform = Transform3D(0.9976421, 0.05466409, -0.041514892, 0.067406446, -0.6659846, 0.7429133, 0.012962386, -0.74395967, -0.6680993, 0.4919771, 0.2596519, -0.41819134)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_0ad8t")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1390733647]
+libraries/ = SubResource("AnimationLibrary_0ad8t")
 
-[node name="AttackCooldown" type="Timer" parent="."]
+[node name="AttackCooldown" type="Timer" parent="." unique_id=1896262549]
 wait_time = 0.8
 
-[node name="HUD" type="CanvasLayer" parent="."]
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1849370175]
 
-[node name="HP_Bar" type="TextureProgressBar" parent="HUD"]
+[node name="HP_Bar" type="TextureProgressBar" parent="HUD" unique_id=1374864965]
 offset_left = 27.0
 offset_top = 28.0
 offset_right = 266.0
@@ -133,7 +132,7 @@ value = 70.0
 texture_under = ExtResource("3_0ad8t")
 texture_progress = ExtResource("4_x20fu")
 
-[node name="Gold_counter" type="Label" parent="HUD"]
+[node name="Gold_counter" type="Label" parent="HUD" unique_id=758719814]
 offset_left = 1307.0
 offset_top = 695.0
 offset_right = 1355.0
@@ -141,12 +140,15 @@ offset_bottom = 753.0
 theme_type_variation = &"HeaderLarge"
 text = "0"
 
-[node name="attackZone\\" type="Area3D" parent="."]
+[node name="attackZone\\" type="Area3D" parent="." unique_id=1831272166]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="attackZone\\"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="attackZone\\" unique_id=2032339779]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.85153484)
 shape = SubResource("BoxShape3D_0ad8t")
+
+[node name="FlashLight" parent="." unique_id=348894106 instance=ExtResource("5_x20fu")]
 
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
 [connection signal="body_entered" from="attackZone\\" to="." method="_on_attack_zone_body_entered"]
 [connection signal="body_exited" from="attackZone\\" to="." method="_on_attack_zone_body_exited"]
+[connection signal="toggle" from="FlashLight" to="." method="_on_flash_light_toggle"]
