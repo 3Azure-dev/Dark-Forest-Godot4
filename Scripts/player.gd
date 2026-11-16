@@ -1,10 +1,15 @@
 extends CharacterBody3D
 
 
-const SPEED = 5.0
+@export var walk_speed = 3.5
+@export var run_speed = 6.0
+@export var crouch_speed = 1.5
 const JUMP_VELOCITY = 4.5
 
 var sensetivity = 1
+@export var cam_stand_height = 0.41
+@export var cam_crouch_height = -0.2
+@export var cam_move_speed = 3.0
 var onCoolDown = false
 
 var gold = 0
@@ -80,7 +85,19 @@ func _process(_delta):
 	_UpdateHUD()
 	deal_damage()
 
+
 func _physics_process(delta: float) -> void:
+	var target_height = cam_stand_height
+	var speed = walk_speed
+	if Input.is_action_pressed("run") and not Input.is_action_pressed("crouch"):
+		speed = run_speed
+	
+	if Input.is_action_pressed("crouch"):
+		speed = crouch_speed
+		target_height = cam_crouch_height 
+	
+	
+	camera.position.y = lerp(camera.position.y, target_height, cam_move_speed * delta)
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -94,11 +111,11 @@ func _physics_process(delta: float) -> void:
 	var input_dir := Input.get_vector("left", "right", "forward", "backward")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
+		velocity.x = direction.x * speed
+		velocity.z = direction.z * speed
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
+		velocity.x = move_toward(velocity.x, 0, speed)
+		velocity.z = move_toward(velocity.z, 0, speed)
 
 	move_and_slide()
 
